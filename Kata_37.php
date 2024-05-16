@@ -25,11 +25,7 @@ function convertToMatrix(array $array): array {
 
     //Creating a matrix with array_slice
     //First row index 0, length 3 [0, 1, 2]
-    /*[0][0], [0][1], [0][2]
-      [1][0], [1][1], [1][2]
-      [2][0], [2][1], [2][2]
-    */
-
+        
     for($i = 0; $i < $index; $i++) {
         $matrix[] = array_slice($array, $i * $index, $index);
     }
