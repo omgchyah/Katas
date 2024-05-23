@@ -1,0 +1,1 @@
+Número: 3. Quadrat: 9. Cub: 27. Factorial : 6.
