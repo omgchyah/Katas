@@ -1,0 +1,1 @@
+Número: 4. Quadrat: 16. Cub: 64. Factorial : 24.
