@@ -1,20 +1,42 @@
 <?php declare(strict_types= 1);
 
+function verifyNumber($number): bool {
+    if($number >= 0) {
+        return true;
+    } else {
+        throw new InvalidArgumentException("Only natural numbers are valid.");
+    }
+}
+
 function powerTwo(int $number) : int {
+
+    if(!verifyNumber($number)) {
+        throw new InvalidArgumentException("Cannot perform this task.");
+    }
+
     return pow($number, 2);
 }
 
 function powerThree(int $number) : int {
+
+    if(!verifyNumber($number)) {
+        throw new InvalidArgumentException("Cannot perform this task.");
+    }
+
     return pow($number, 3);
 }
 
 function factorial(int $number): int {
 
-    $result = 1;
+    if(!verifyNumber($number)) {
+        throw new InvalidArgumentException("Cannot perform this task.");
+    }
 
     if ($number == 0) {
-        $result = 1;
+        return 1;
     }
+    
+    $result = 1;
     
     for($i = 1; $i <= $number; $i++) {
            $result *= $i;
@@ -23,7 +45,7 @@ function factorial(int $number): int {
     return $result;
 }
 
-$number = 3;
+$number = -1;
 
 $file = "calculs_" . $number . ".txt";
 
