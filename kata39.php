@@ -1,7 +1,6 @@
 <?php declare(strict_types= 1);
 
 $fileName = "loveIsAwful.txt";
-
 /*
 En sistemas en los que se diferencia entre archivos binarios y de texto (esto es, Windows) el fichero debe ser abierto con 'b' incluida en el parámetro modo de fopen(). 
 */
@@ -17,8 +16,7 @@ $arrayText = explode(" ", $contenido);
 
 // Split the string into an array of words using space as the delimiter
 //$arrayText = preg_split('/\s+/', $contenido);
-
-function findWordsVowel($arrayText): array {
+function findWordsWithVowel($arrayText): array {
     $wordsWithVowel = [];
     $vowels = ["a", "e", "i", "o", "u", "A", "E", "I", "O", "U"];
     foreach($arrayText as $word) {
@@ -34,9 +32,7 @@ function findWordsVowel($arrayText): array {
     }
     return $wordsWithVowel;
 }
-
-
-function findWordsWithT($arrayText): array {
+function findWordsStartingWithT($arrayText): array {
     $wordsWithT = [];
     $letter = ["t", "T"];
     foreach ($arrayText as $word) {
@@ -47,7 +43,7 @@ function findWordsWithT($arrayText): array {
     return $wordsWithT;
 }
 
-print_r(findWordsVowel($arrayText));
-print_r(findWordsWithT($arrayText));
+print_r(findWordsWithVowel($arrayText));
+print_r(findWordsStartingWithT($arrayText));
 
 fclose($gestor);
