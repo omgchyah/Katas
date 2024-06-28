@@ -33,7 +33,7 @@ function verifyDate(string $date): bool
             $formatIsCorrect = false;
         }
     }
-    //Verify for non-leap years
+    //Verification for non-leap years
     $months31Days = [1, 3, 5, 7, 8, 10, 12];
     $month30Days = [4, 6, 9, 11];
     if($isLeapYear = false) {
