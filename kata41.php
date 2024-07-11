@@ -40,6 +40,8 @@ echo remainingDays($date1, $date3);
 
 
 
+//Old logic
+
 /* function verifyDate(string $date): bool
 {   
     $formatIsCorrect = true;
