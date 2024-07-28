@@ -1,19 +1,9 @@
 <?php declare(strict_types=1);
 
-// Set the internal character encoding to UTF-8
-mb_internal_encoding("UTF-8");
-header('Content-Type: text/plain; charset=utf-8');
-
-// Ensure the script uses UTF-8 for input and output
-ini_set('default_charset', 'UTF-8');
-
 echo "Enter a phrase, please: ";
 
 // Read input from the user using readline()
 $text = trim(readline());
-
-// Ensure the text is in UTF-8 encoding
-$text = mb_convert_encoding($text, 'UTF-8', 'auto');
 
 echo "You entered: " . $text . PHP_EOL;
 
