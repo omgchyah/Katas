@@ -5,12 +5,15 @@ require 'VacationPlan.php';
 
 echo "Hola. Por favor, indique si desea guardar un plan de estudios o un plan de vacaciones ('E' o 'V'): " . PHP_EOL;
 
-$planType = trim(readline());
+$planType = strtoupper(trim(readline()));
 
 if ($planType === 'E') {
     $plan = new StudyPlan();
-} else {
+} elseif ($planType === 'V') {
     $plan = new VacationPlan();
+} else {
+    echo "Tipo de plan no válido. Use 'E' para plan de estudios o 'V' para plan de vacaciones." . PHP_EOL;
+    exit;
 }
 
 echo 'Por favor, ingrese la fecha de su plan en formato (dd-mm-aaaa): ' . PHP_EOL;
@@ -35,6 +38,11 @@ if ($planType === 'E') {
 
     echo 'Ingrese el número de Sprint (1-5): ' . PHP_EOL;
     $sprintNumber = (int)trim(readline());
+
+    if (!in_array($sprintNumber, range(1, 5))) {
+        throw new Exception("Número de Sprint no válido. Use un número entre 1 y 5." . PHP_EOL);
+    }
+
     $sprint = Sprint::from($sprintNumber);
     $plan->setSprint($sprint);
 
@@ -56,7 +64,13 @@ if ($planType === 'E') {
     $plan->setLocation($location);
 
     echo 'Ingrese el tipo del plan (Restaurant, Sports, Cultural, Visit): ' . PHP_EOL;
-    $typeInput = trim(readline());
+    $typeInput = ucfirst(trim(readline())); 
+
+    if (!in_array($typeInput, array_column(Type::cases(), 'value'))) {
+        throw new Exception("Tipo de plan no válido. Use 'Restaurant', 'Sports', 'Cultural', o 'Visit'." . PHP_EOL);
+    }
+
+
     $type = Type::from($typeInput);
     $plan->setType($type);
 }
