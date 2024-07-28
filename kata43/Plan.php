@@ -23,16 +23,17 @@ abstract class Plan
 
     public function getAllPlans(): array
     {
-    // Read the existing data from the JSON file
-    if (file_exists($this->filePath)) {
-        $jsonContent = file_get_contents($this->filePath);
+        // Read the existing data from the JSON file
+        if (file_exists($this->filePath)) {
+            $jsonContent = file_get_contents($this->filePath);
             return json_decode($jsonContent, true);
         } else {
             return [];
-            }
+        }
     }
 
-    public function writeToFile(array $plans): void{
+    public function writeToFile(array $plans): void
+    {
         file_put_contents($this->filePath, json_encode($plans, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
     }
 
@@ -40,13 +41,11 @@ abstract class Plan
     {
         $plans = $this->getAllPlans();
 
-        foreach($plans as $plan){
-            if(DateTime::createFromFormat('d-m-Y', $plan['date']) == $date) {
+        foreach ($plans as $plan) {
+            if (DateTime::createFromFormat('d-m-Y', $plan['date']) == $date) {
                 return false;
             }
         }
         return true;
     }
-
-
 }

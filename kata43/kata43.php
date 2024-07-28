@@ -7,66 +7,62 @@ echo "Hola. Por favor, indique si desea guardar un plan de estudios o un plan de
 
 $planType = trim(readline());
 
-if($planType = 'E') {
+if ($planType === 'E') {
     $plan = new StudyPlan();
 } else {
     $plan = new VacationPlan();
 }
 
 echo 'Por favor, ingrese la fecha de su plan en formato (dd-mm-aaaa): ' . PHP_EOL;
-
 $dateInput = trim(readline());
-
 $date = DateTime::createFromFormat('d-m-Y', $dateInput);
 
-
-
 if ($date === false) {
-        throw new Exception("Formato de fecha no válido. Use (dd-mm-aaaa)." . PHP_EOL);
-    }
+    throw new Exception("Formato de fecha no válido. Use (dd-mm-aaaa)." . PHP_EOL);
+}
+
+$plan->setDate($date);
 
 if (!$plan->isDateAvalaible($date)) {
     echo 'Lo siento. Fecha no disponible.' . PHP_EOL;
     exit;
 }
 
-$data = ['date' => $dateInput];
-
-if ($plan->isDateAvalaible($date) && $planType == 'E') {
+if ($planType === 'E') {
     echo 'Ingrese el nombre del plan: ' . PHP_EOL;
-    $data['name'] = trim(readline());
-    
+    $name = trim(readline());
+    $plan->setName($name);
 
     echo 'Ingrese el número de Sprint (1-5): ' . PHP_EOL;
-    $data['sprint'] = (int)trim(readline());
+    $sprintNumber = (int)trim(readline());
+    $sprint = Sprint::from($sprintNumber);
+    $plan->setSprint($sprint);
 
     echo 'Ingrese el enlace de GitHub: ' . PHP_EOL;
-    $data['gitHubLink'] = trim(readline());
+    $gitHubLink = trim(readline());
+    $plan->setGitHubLink($gitHubLink);
 
     echo 'Si lo desea, agregué alguna nota: ' . PHP_EOL;
-    $data['notes'] = trim(readline());
+    $notes = trim(readline());
+    $plan->setNotes($notes);
 
-
-} else if ($plan->isDateAvalaible($date) && $planType == 'V') {
+} else if ($planType === 'V') {
     echo 'Ingrese el nombre del plan: ' . PHP_EOL;
-    $data['name'] = trim(readline());
+    $name = trim(readline());
+    $plan->setName($name);
 
     echo 'Ingrese la ubicación del plan: ' . PHP_EOL;
-    $data['location'] = trim(readline());
+    $location = trim(readline());
+    $plan->setLocation($location);
 
     echo 'Ingrese el tipo del plan (Restaurant, Sports, Cultural, Visit): ' . PHP_EOL;
-    $data['type'] = trim(readline());
+    $typeInput = trim(readline());
+    $type = Type::from($typeInput);
+    $plan->setType($type);
 }
 
-if ($plan->create($data)) {
+if ($plan->create()) {
     echo "¡Plan creado exitosamente!" . PHP_EOL;
 } else {
     echo "Error al crear el plan." . PHP_EOL;
 }
-
-
-
-
-
-
-

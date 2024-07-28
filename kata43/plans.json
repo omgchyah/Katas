@@ -1,1 +1,15 @@
-[]
+[
+    {
+        "date": "20-08-2024",
+        "name": "Proteger rutas",
+        "sprint": "Sprint 5: Laravel API REST",
+        "gitHubLink": "ggdf",
+        "notes": "dfggd"
+    },
+    {
+        "date": "21-09-2024",
+        "name": "Hello",
+        "location": "Mare de Deu",
+        "type": "Restaurant"
+    }
+]
