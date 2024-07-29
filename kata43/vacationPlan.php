@@ -47,16 +47,5 @@ class VacationPlan extends Plan
         return false;
     }
 
-    public function cancelVacationPlan($date)
-    {
-        $plans = $this->getAllPlans();
 
-        foreach($plans as $plan) {
-            while($plan['date'] != $date) {
-                return false;
-        } $planFound = $plan;
-        
-    }
-
-    return true;
 }

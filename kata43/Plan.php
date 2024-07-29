@@ -49,20 +49,29 @@ abstract class Plan
         return true;
     }
 
-    public function deletePlan($date): void
+    public function deletePlan(DateTime $date): bool
     {
+        $formattedDate = $date->format('d-m-Y');
+
         $plans = $this->getAllPlans();
 
+        $deleted = false;
+
         foreach($plans as $index => $plan) {
-            if($plan['date'] === $date) {
+            if($plan['date'] === $formattedDate) {
                 unset($plans[$index]);
+                $deleted = true;
+                break;
             }
         }
 
-        // Reindex the array to ensure proper indexing
-        $plans = array_values($plans);
+        if ($deleted) {
+            // Reindex the array to ensure proper indexing
+            $plans = array_values($plans);
+            $this->writeToFile($plans);
+        }
 
-        $this->writeToFile($plans);
+        return $deleted;
     }
 
 }
