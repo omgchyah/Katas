@@ -1,1 +1,24 @@
-[]
+[
+    {
+        "date": "20-08-2024",
+        "planType": "Plan Vacacional",
+        "name": "Proteger rutas",
+        "location": "Mare de deu",
+        "type": "Restaurant"
+    },
+    {
+        "date": "23-08-2024",
+        "planType": "Plan de Estudio",
+        "name": "Proteger rutas con tokens",
+        "sprint": "Sprint 5: Laravel API REST",
+        "gitHubLink": "flghgjlf",
+        "notes": "Terminarlo esta semana"
+    },
+    {
+        "date": "21-08-2024",
+        "planType": "Plan Vacacional",
+        "name": "Salir con mi hermana",
+        "location": "Carrer Olzinelles",
+        "type": "Cultural"
+    }
+]

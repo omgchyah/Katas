@@ -59,6 +59,20 @@ function checkDateInput(Plan $plan): DateTime
     return $date;
 }
 
+function validateDateFormat(): DateTime
+{
+    echo 'Por favor, ingrese la fecha en formato (dd-mm-aaaa): ' . PHP_EOL;
+    $dateInput = trim(readline());
+
+    $date = DateTime::createFromFormat('d-m-Y', $dateInput);
+
+    if ($date === false) {
+        throw new Exception("Formato de fecha no válido. Use (dd-mm-aaaa)." . PHP_EOL);
+    }
+
+    return $date;
+}
+
 function createVacationPlan()
 {
     $plan = new VacationPlan();
@@ -143,23 +157,32 @@ function createStudyPlan()
 
 function changeDateStudyPlan()
 {
+    echo 'Ingrese la fecha del plan a modificar: ' . PHP_EOL;
+    $date = validateDateFormat();
+
     $plan = new StudyPlan();
-    $date = checkDateInput($plan);
+    $planData = $plan->findPlanByDate($date);
 
-    echo 'Por favor, ingrese la nueva fecha de su plan en formato (dd-mm-aaaa): ' . PHP_EOL;
-    $newDateInput = trim(readline());
-
-    $newDate = DateTime::createFromFormat('d-m-Y', $newDateInput);
-
-    if ($newDate === false) {
-        throw new Exception("Formato de nueva fecha no válido. Use (dd-mm-aaaa)." . PHP_EOL);
+    if ($planData === null) {
+        echo "No se encontró ningún plan con la fecha especificada." . PHP_EOL;
+        return;
     }
 
-    if ($plan->changeDate($date, $newDate)) {
-        echo "Se ha planificado la reentrega." . PHP_EOL;
-    } else {
-        echo "Error al fijar fecha de reentrega." . PHP_EOL;
+    echo 'Ingrese la nueva fecha del plan en formato (dd-mm-aaaa): ' . PHP_EOL;
+    $newDate = validateDateFormat();
+
+    $plans = $plan->getAllPlans();
+
+    foreach ($plans as &$p) {
+        if ($p['date'] === $date->format('d-m-Y')) {
+            $p['date'] = $newDate->format('d-m-Y');
+            break;
+        }
     }
+
+    $plan->writeToFile($plans);
+
+    echo "La fecha del plan ha sido cambiada exitosamente." . PHP_EOL;
 }
 
 function searchPlan()
