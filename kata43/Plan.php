@@ -63,6 +63,20 @@ abstract class Plan
         return null;
     }
 
+    public function findPlanByDate(DateTime $date): ?array
+    {
+        $formattedDate = $date->format('d-m-Y');
+        $plans = $this->getAllPlans();
+
+        foreach ($plans as $plan) {
+            if ($plan['date'] === $formattedDate) {
+                return $plan;
+            }
+        }
+
+        return null;
+    }
+
     public function deletePlan(DateTime $date): bool
     {
         $index = $this->findPlanIndexByDate($date);
@@ -90,5 +104,16 @@ abstract class Plan
         $this->writeToFile($plans);
 
         return true;
+    }
+
+    public function searchPlanType(DateTime $date): ?string
+    {
+        $plan = $this->findPlanByDate($date);
+
+        if ($plan === null) {
+            return null;
+        }
+
+        return $plan['planType'];
     }
 }

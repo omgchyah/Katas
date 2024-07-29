@@ -55,6 +55,7 @@ class StudyPlan extends Plan
         if ($this->isDateAvalaible($this->date)) {
             $data = [
                 'date' => $this->date->format('d-m-Y'),
+                'planType' => 'Plan de Estudio',
                 'name' => $this->name,
                 'sprint' => $this->sprint->description(),
                 'gitHubLink' => $this->gitHubLink,
@@ -68,8 +69,4 @@ class StudyPlan extends Plan
         return false;
     }
 
-    public function changeDate(Plan $plan, DateTime $date)
-    {
-        
-    }
 }

@@ -6,7 +6,6 @@ require 'VacationPlan.php';
 $option = 0;
 
 do {
-
     echo "¡Hola! Por favor, seleccione una opción: " . PHP_EOL .
     "1. Crear plan vacacional." . PHP_EOL .
     "2. Anular plan vacacional." . PHP_EOL .
@@ -156,10 +155,10 @@ function changeDateStudyPlan()
         throw new Exception("Formato de nueva fecha no válido. Use (dd-mm-aaaa)." . PHP_EOL);
     }
 
-    if ($plan->changeDate($plan, $date, $newDate)) {
+    if ($plan->changeDate($date, $newDate)) {
         echo "Se ha planificado la reentrega." . PHP_EOL;
     } else {
-        echo "Error al fijar reentrega." . PHP_EOL;
+        echo "Error al fijar fecha de reentrega." . PHP_EOL;
     }
 }
 
@@ -174,25 +173,33 @@ function searchPlan()
         throw new Exception("Formato de fecha no válido. Use (dd-mm-aaaa)." . PHP_EOL);
     }
 
-    $vacationPlan = new VacationPlan();
-    $studyPlan = new StudyPlan();
+    $planType = (new VacationPlan())->searchPlanType($date);
 
-    $vacationPlans = $vacationPlan->getAllPlans();
-    $studyPlans = $studyPlan->getAllPlans();
-
-    $plans = array_merge($vacationPlans, $studyPlans);
-
-    $found = false;
-    foreach ($plans as $plan) {
-        if ($plan['date'] === $dateInput) {
-            echo "Plan encontrado: " . PHP_EOL;
-            echo "Nombre: " . $plan['name'] . PHP_EOL;
-            echo "Fecha: " . $plan['date'] . PHP_EOL;
-            $found = true;
-        }
+    if ($planType === "Plan Vacacional") {
+        $plan = new VacationPlan();
+    } elseif ($planType === "Plan de Estudio") {
+        $plan = new StudyPlan();
+    } else {
+        echo "No se encontraron planes para la fecha especificada." . PHP_EOL;
+        return;
     }
 
-    if (!$found) {
+    $planData = $plan->findPlanByDate($date);
+
+    if ($planData !== null) {
+        echo "Plan encontrado: " . PHP_EOL;
+        echo "Nombre: " . $planData['name'] . PHP_EOL;
+        echo "Fecha: " . $planData['date'] . PHP_EOL;
+
+        if ($plan instanceof VacationPlan) {
+            echo "Ubicación: " . $planData['location'] . PHP_EOL;
+            echo "Tipo: " . $planData['type'] . PHP_EOL;
+        } elseif ($plan instanceof StudyPlan) {
+            echo "Sprint: " . $planData['sprint'] . PHP_EOL;
+            echo "GitHub Link: " . $planData['gitHubLink'] . PHP_EOL;
+            echo "Notas: " . $planData['notes'] . PHP_EOL;
+        }
+    } else {
         echo "No se encontraron planes para la fecha especificada." . PHP_EOL;
     }
 }

@@ -35,6 +35,7 @@ class VacationPlan extends Plan
         if ($this->isDateAvalaible($this->date)) {
             $data = [
                 'date' => $this->date->format('d-m-Y'),
+                'planType' => 'Plan Vacacional',
                 'name' => $this->name,
                 'location' => $this->location,
                 'type' => $this->type->value,
