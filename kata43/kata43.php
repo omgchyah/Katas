@@ -7,7 +7,7 @@ $option = 0;
 
 do {
 
-    echo "¡Hola! Por favor, seleccione una opción." . PHP_EOL .
+    echo "¡Hola! Por favor, seleccione una opción: " . PHP_EOL .
     "1. Crear plan vacacional." . PHP_EOL .
     "2. Anular plan vacacional." . PHP_EOL .
     "3. Planificar entrega IT Academy." . PHP_EOL .
@@ -37,23 +37,25 @@ do {
             echo "Opción no disponible. Ingrese una opción válida.";
             break;
     }
-} while ($opcion != 0);
+} while ($option != 0);
 
 
-function checkDate(string $dateInput, Plan $plan)
+function checkDateInput(Plan $plan): DateTime
 {
+    echo 'Por favor, ingrese la fecha de su plan en formato (dd-mm-aaaa): ' . PHP_EOL;
+    $dateInput = trim(readline());
+
     $date = DateTime::createFromFormat('d-m-Y', $dateInput);
 
     if ($date === false) {
         throw new Exception("Formato de fecha no válido. Use (dd-mm-aaaa)." . PHP_EOL);
     }
 
-    $plan->setDate($date);
-
     if (!$plan->isDateAvalaible($date)) {
-        echo 'Lo siento. Fecha no disponible.' . PHP_EOL;
-        exit;
+        throw new Exception('Lo siento. Fecha no disponible.' . PHP_EOL);
     }
+
+    return $date;
 }
 
 
@@ -61,10 +63,9 @@ function createVacationPlan()
 {
     $plan = new VacationPlan();
 
-    echo 'Por favor, ingrese la fecha de su plan en formato (dd-mm-aaaa): ' . PHP_EOL;
-    $dateInput = trim(readline());
+    $date = checkDateInput($plan);
 
-    checkDate($dateInput, $plan);
+    $plan->setDate($date);
 
     echo 'Ingrese el nombre del plan: ' . PHP_EOL;
         $name = trim(readline());
@@ -81,6 +82,7 @@ function createVacationPlan()
             throw new Exception("Tipo de plan no válido. Use 'Restaurant', 'Sports', 'Cultural', o 'Visit'." . PHP_EOL);
         }
 
+        // Convert input to the correct enum case
         $type = Type::from($typeInput);
         $plan->setType($type);
 
@@ -91,15 +93,24 @@ function createVacationPlan()
         }
 }
 
+function cancelVacationPlan()
+{
+    $plan = new VacationPlan();
+
+    $date = checkDateInput($plan);
+
+    
+
+}
+
 
 function createStudyPlan()
 {
     $plan = new StudyPlan();
 
-    echo 'Por favor, ingrese la fecha de su plan en formato (dd-mm-aaaa): ' . PHP_EOL;
-    $dateInput = trim(readline());
+    $date = checkDateInput($plan);
 
-    checkDate($dateInput, $plan);
+    $plan->setDate($date);
 
     echo 'Ingrese el nombre del plan: ' . PHP_EOL;
         $name = trim(readline());
@@ -128,5 +139,18 @@ function createStudyPlan()
         } else {
             echo "Error al crear el plan." . PHP_EOL;
         }
+}
+
+function changeDateStudyPlan()
+{
+    echo 'Por favor, ingrese la fecha de su plan en formato (dd-mm-aaaa): ' . PHP_EOL;
+    $dateInput = trim(readline());
+
+    $plan = new StudyPlan();
+}
+
+function searchPlan()
+{
+
 }
 

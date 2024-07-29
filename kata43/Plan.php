@@ -48,4 +48,21 @@ abstract class Plan
         }
         return true;
     }
+
+    public function deletePlan($date): void
+    {
+        $plans = $this->getAllPlans();
+
+        foreach($plans as $index => $plan) {
+            if($plan['date'] === $date) {
+                unset($plans[$index]);
+            }
+        }
+
+        // Reindex the array to ensure proper indexing
+        $plans = array_values($plans);
+
+        $this->writeToFile($plans);
+    }
+
 }
