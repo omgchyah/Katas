@@ -78,7 +78,7 @@ abstract class Plan
         return true;
     }
 
-    public function changeDate(Plan $plan, DateTime $date, DateTime $newDate): bool
+    public function changeDate(DateTime $date, DateTime $newDate): bool
     {
         $index = $this->findPlanIndexByDate($date);
         if ($index === null) {
