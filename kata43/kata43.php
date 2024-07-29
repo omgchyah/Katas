@@ -110,7 +110,7 @@ function cancelVacationPlan()
 {
     $plan = new VacationPlan();
 
-    $date = checkDateInput($plan);
+    $date = validateDateFormat();
 
     if ($plan->deletePlan($date)) {
         echo "Plan vacacional se ha eliminado con éxito." . PHP_EOL;
@@ -157,7 +157,7 @@ function createStudyPlan()
 
 function changeDateStudyPlan()
 {
-    echo 'Ingrese la fecha del plan a modificar: ' . PHP_EOL;
+    echo 'Ingrese la fecha del plan a modificar en formato (dd-mm-aaaa): ' . PHP_EOL;
     $date = validateDateFormat();
 
     $plan = new StudyPlan();
@@ -169,7 +169,18 @@ function changeDateStudyPlan()
     }
 
     echo 'Ingrese la nueva fecha del plan en formato (dd-mm-aaaa): ' . PHP_EOL;
-    $newDate = validateDateFormat();
+
+    $dateInput = trim(readline());
+
+    if ($dateInput === false) {
+        throw new Exception("Formato de fecha no válido. Use (dd-mm-aaaa)." . PHP_EOL);
+    }
+
+    $newDate = DateTime::createFromFormat('d-m-Y', $dateInput);
+
+    if ($date === false) {
+        throw new Exception("Formato de fecha no válido. Use (dd-mm-aaaa)." . PHP_EOL);
+    }
 
     $plans = $plan->getAllPlans();
 
@@ -215,9 +226,10 @@ function searchPlan()
         echo "Fecha: " . $planData['date'] . PHP_EOL;
 
         if ($plan instanceof VacationPlan) {
-            echo "Ubicación: " . $planData['location'] . PHP_EOL;
             echo "Tipo: " . $planData['type'] . PHP_EOL;
+            echo "Ubicación: " . $planData['location'] . PHP_EOL;
         } elseif ($plan instanceof StudyPlan) {
+            echo "Tipo: " . $planData['type'] . PHP_EOL;
             echo "Sprint: " . $planData['sprint'] . PHP_EOL;
             echo "GitHub Link: " . $planData['gitHubLink'] . PHP_EOL;
             echo "Notas: " . $planData['notes'] . PHP_EOL;

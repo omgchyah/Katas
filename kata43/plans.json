@@ -7,7 +7,7 @@
         "type": "Restaurant"
     },
     {
-        "date": "23-08-2024",
+        "date": "25-08-2024",
         "planType": "Plan de Estudio",
         "name": "Proteger rutas con tokens",
         "sprint": "Sprint 5: Laravel API REST",
@@ -20,5 +20,13 @@
         "name": "Salir con mi hermana",
         "location": "Carrer Olzinelles",
         "type": "Cultural"
+    },
+    {
+        "date": "26-08-2024",
+        "planType": "Plan de Estudio",
+        "name": "Estudiar tokens",
+        "sprint": "Sprint 5: Laravel API REST",
+        "gitHubLink": "fjjklfd",
+        "notes": "Hacerlo ya"
     }
 ]
