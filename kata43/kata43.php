@@ -18,16 +18,29 @@ do {
     $option = (int)(readline());
 
     switch($option) {
-        case 1 & 3:
-            echo 
+        case 1:
+            createVacationPlan();
+            break;
+        case 2:
+            createStudyPlan();
+            break;
+        case 3:
+            break;
+        case 4:
+            break;
+        case 5:
+            break;
+        case 0:
+            echo "¡Adiós!";
+            break;
+        default:
+            echo "Opción no disponible. Ingrese una opción válida.";
+            break;
     }
-
-
-
 } while ($opcion != 0);
 
 
-function checkDate(string $dateInput)
+function checkDate(string $dateInput, Plan $plan)
 {
     $date = DateTime::createFromFormat('d-m-Y', $dateInput);
 
@@ -43,12 +56,50 @@ function checkDate(string $dateInput)
     }
 }
 
-function createVacationPlan(int $opcion)
+
+function createVacationPlan()
 {
+    $plan = new VacationPlan();
+
     echo 'Por favor, ingrese la fecha de su plan en formato (dd-mm-aaaa): ' . PHP_EOL;
     $dateInput = trim(readline());
 
-    checkDate($dateInput);
+    checkDate($dateInput, $plan);
+
+    echo 'Ingrese el nombre del plan: ' . PHP_EOL;
+        $name = trim(readline());
+        $plan->setName($name);
+
+        echo 'Ingrese la ubicación del plan: ' . PHP_EOL;
+        $location = trim(readline());
+        $plan->setLocation($location);
+
+        echo 'Ingrese el tipo del plan (Restaurant, Sports, Cultural, Visit): ' . PHP_EOL;
+        $typeInput = ucfirst(trim(readline())); 
+
+        if (!in_array($typeInput, array_column(Type::cases(), 'value'))) {
+            throw new Exception("Tipo de plan no válido. Use 'Restaurant', 'Sports', 'Cultural', o 'Visit'." . PHP_EOL);
+        }
+
+        $type = Type::from($typeInput);
+        $plan->setType($type);
+
+        if ($plan->create()) {
+            echo "¡Plan creado exitosamente!" . PHP_EOL;
+        } else {
+            echo "Error al crear el plan." . PHP_EOL;
+        }
+}
+
+
+function createStudyPlan()
+{
+    $plan = new StudyPlan();
+
+    echo 'Por favor, ingrese la fecha de su plan en formato (dd-mm-aaaa): ' . PHP_EOL;
+    $dateInput = trim(readline());
+
+    checkDate($dateInput, $plan);
 
     echo 'Ingrese el nombre del plan: ' . PHP_EOL;
         $name = trim(readline());
@@ -79,35 +130,3 @@ function createVacationPlan(int $opcion)
         }
 }
 
-function createStudyPlan(int $option)
-{
-    echo 'Por favor, ingrese la fecha de su plan en formato (dd-mm-aaaa): ' . PHP_EOL;
-    $dateInput = trim(readline());
-
-    checkDate($dateInput);
-
-    echo 'Ingrese el nombre del plan: ' . PHP_EOL;
-        $name = trim(readline());
-        $plan->setName($name);
-
-        echo 'Ingrese la ubicación del plan: ' . PHP_EOL;
-        $location = trim(readline());
-        $plan->setLocation($location);
-
-        echo 'Ingrese el tipo del plan (Restaurant, Sports, Cultural, Visit): ' . PHP_EOL;
-        $typeInput = ucfirst(trim(readline())); 
-
-        if (!in_array($typeInput, array_column(Type::cases(), 'value'))) {
-            throw new Exception("Tipo de plan no válido. Use 'Restaurant', 'Sports', 'Cultural', o 'Visit'." . PHP_EOL);
-        }
-
-        $type = Type::from($typeInput);
-        $plan->setType($type);
-
-        if ($plan->create()) {
-            echo "¡Plan creado exitosamente!" . PHP_EOL;
-        } else {
-            echo "Error al crear el plan." . PHP_EOL;
-        }
-
-}
