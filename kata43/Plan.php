@@ -49,29 +49,46 @@ abstract class Plan
         return true;
     }
 
-    public function deletePlan(DateTime $date): bool
+    public function findPlanIndexByDate(DateTime $date): ?int
     {
         $formattedDate = $date->format('d-m-Y');
-
         $plans = $this->getAllPlans();
 
-        $deleted = false;
-
-        foreach($plans as $index => $plan) {
-            if($plan['date'] === $formattedDate) {
-                unset($plans[$index]);
-                $deleted = true;
-                break;
+        foreach ($plans as $index => $plan) {
+            if ($plan['date'] === $formattedDate) {
+                return $index;
             }
         }
 
-        if ($deleted) {
-            // Reindex the array to ensure proper indexing
-            $plans = array_values($plans);
-            $this->writeToFile($plans);
-        }
-
-        return $deleted;
+        return null;
     }
 
+    public function deletePlan(DateTime $date): bool
+    {
+        $index = $this->findPlanIndexByDate($date);
+        if ($index === null) {
+            return false;
+        }
+
+        $plans = $this->getAllPlans();
+        unset($plans[$index]);
+        $plans = array_values($plans); // Reindex the array to ensure proper indexing
+        $this->writeToFile($plans);
+
+        return true;
+    }
+
+    public function changeDate(Plan $plan, DateTime $date, DateTime $newDate): bool
+    {
+        $index = $this->findPlanIndexByDate($date);
+        if ($index === null) {
+            return false;
+        }
+
+        $plans = $this->getAllPlans();
+        $plans[$index]['date'] = $newDate->format('d-m-Y');
+        $this->writeToFile($plans);
+
+        return true;
+    }
 }

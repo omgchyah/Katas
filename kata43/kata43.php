@@ -99,10 +99,11 @@ function cancelVacationPlan()
 
     $date = checkDateInput($plan);
 
-    
-
-
-
+    if($plan->deletePlan($date)) {
+        echo "Plan vacacional se ha eliminado con éxito.";
+    } else {
+        echo "Error al eliminar plan vacacional.";
+    }
 }
 
 
@@ -149,6 +150,17 @@ function changeDateStudyPlan()
     $dateInput = trim(readline());
 
     $plan = new StudyPlan();
+
+    $date = checkDateInput($plan);
+
+    if($plan->changeDate($date)) {
+        echo "Se ha planificado la entrega.";
+    } else {
+        echo "Error al fijar reentrega.";
+    }
+
+
+
 }
 
 function searchPlan()

@@ -67,4 +67,9 @@ class StudyPlan extends Plan
         }
         return false;
     }
+
+    public function changeDate(Plan $plan, DateTime $date)
+    {
+        
+    }
 }
